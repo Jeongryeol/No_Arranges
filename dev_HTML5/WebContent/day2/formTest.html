@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--  -->
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function send(){
+		//document.n_form.submit();
+		var u_id = document.getElementById("mem_id").value
+		alert("사용자가 입력한 아이디 : "+u_id);
+		document.getElementById("i_form").submit();
+		//document는 내장객체 / getElementById는 함수 / 파라매터를 받음
+	}
+ </script>
+</head>
+<body>
+<!--
+	id :: 폼  태그 내에서 사용자가 입력하는 text컴포넌트에 접글할 때 사용[화면안에서 그 값을 참조함]
+	name :: 서버[jsp]측에서 사용할 목적으로 접근할 때 사용 
+ -->
+<form name="n_form" id="i_form" method="post" action="./formTestAction.jsp">
+	등록번호 : <input type="text" name="mem_id" id="mem_id" size=15><BR>
+	비밀번호 : <input type="text" name="mem_pw" id="mem_pw" size=15><BR>
+	전화번호 : <input type="tel" name="mem_tel" id="mem_tel" size=15><BR>
+	라디오버튼 | 남:<input type="radio"> 여:<input type="radio"><BR>
+	가입날짜 : <input type="date"><BR>
+	홈페이지 : <input type="url"><BR>
+	증명사진 : <input type="image"><br>
+	취미여가 : 뭐지?<input type="checkbox">  그러게?<input type="checkbox"> 뭘까...<input type="checkbox"><br>
+	hidden : <input type="hidden" value="haha"><br><!-- 화면에는 보이지 않지만 볼 수 있음 -->
+	첨부파일 : <input type="file"><br>
+	나이 : <input type="number"><br>
+	<input type="button" value="submit" onClick="send()">
+	<!-- 브라우저가 기능을 감지하도록 도와주는 자바스크립트 onClick -->
+</form>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html><!-- HTML5에서 사용하는 부분 -->
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<!-- 자바스크립트 영역 -->
+<script type="text/javascript">
+	var i = 10;
+	function login(mem_id){ //자바스크립트는 타입이 없다.
+		console.log("login 성공"+mem_id.value)//개발자메뉴에서 확인가능한 콜솔창에 출력하기
+		//alert("로그인 호출 성공");//팝업창 띄우기
+	}
+</script>
+<!-- CSS 영역 -->
+</head>
+<body>
+<!-- 이곳에 작성된 내용만 화면에서 출력이 가능함. / .jsp가 있어야 java코드를 함께 쓸수있다.??-->
+<input type="text" id="mem_id"
+onclick="login(document.getElementById('mem_id'))">
+ 		   <!--클래스(객체).함수( ) : 자바스크립트에도 객체가 있다!!-->
+ 		   <!--document : 내장객체  -->
+<!-- 클릭시 login()함수를 작동시켜라 라는 의미 -->
+<br><!-- 줄바꿈 처리문 -->
+여기에 구글 로고 이미지 출력
+<br>
+<a href="http://www.google.com" target="sVal_blank">
+<IMG name="Google Logo" src="../images/googlelogo.png"
+border="0" width="500" height="200">
+<br>
+<!-- <IMG name="Google Logo" src="http://192.168.0.18:9000/images/googlelogo.png"
+border="0" width="500" height="200"> -->
+</a><!-- src에 절대경로를 입력한다 -->
+<!--  input태크, text노드, img태그는 줄바꿈 처리가 된다|안된다. 안됨 >> 인라인처리 라고 함 -->
+<br>
+<a href="#">
+<IMG name="Google Logo" src="http://192.168.0.36:9000/images/worldcup.png"
+border="0" width="500" height="200">
+<IMG name="Google Logo" src="http://192.168.0.3:9000/dev_html5/images/boll.jpg"
+border="0" width="500" height="200">
+<BR>
+<A herf="Naver Link" target="sVal_blank">네이버</A>
+
+
+<!-- 자바스크립트에서 제공하는 내장객체(변수와 함수제공)를 이용하면 html태그에 접근할 수 있다. -->
+
+<h1>
+</h1>
+</body>
+</html>

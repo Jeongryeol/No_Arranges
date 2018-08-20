@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 액션태그가 이름을 가질때, 그 이름에 해당하는 부분 -->
+<mapper namespace="bookListMapper">
+	<!-- 조회업무 -->
+	<select id="getBookList" resultType="map" parameterType="map">
+		SELECT
+		     ind.category "분류"
+		    ,it.b_no "도서번호"
+		    ,it.b_name "도서명"
+		    ,it.author "저자"
+		    ,it.price "금액"
+		  FROM book_index ind, book_it it
+		 WHERE ind.b_no = it.b_no
+		<if test="b_name != null">
+		   AND it.b_name LIKE '%'||#{b_name}||'%'
+ 		</if>
+	</select>
+</mapper>

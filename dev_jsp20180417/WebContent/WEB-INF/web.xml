@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>dev_jsp20180417</display-name>
+<!-- 	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+		[ ▽ ▽ ▽ [ log4j.jar import and context-param] ▽ ▽ ▽ ]
+		■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■		-->
+
+  <context-param>
+  	<param-name>log4jConfigLocation</param-name>
+  	<param-value>/WEB-INF/classes/log4j.properties</param-value>
+  	<!-- log4j는 위와같은 classess 폴더에서 채워졌다가 비워지면서 로그를 출력하므로
+  		  반드시 src폴더에 log4j.properties 저장
+  		  	  lib폴더에 log4j-1.2.15.jar를 저장합니다. -->
+  </context-param>  
+ 
+<!-- 	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+		[ ▽ ▽ ▽ [ MyBatis jar file resource mapping ] ▽ ▽ ▽ ]
+		■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■	-->
+
+	<resource-ref>
+		<description>Connection</description>
+		<res-ref-name>jdbc/dbPool</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+<!-- 	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+		[ ▽ ▽ ▽ [ POJO Framework Controller ] ▽ ▽ ▽ ]
+		■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■		-->
+
+<!-- MemberController.java -> Httpservlet(쿠키와 세션을 생성)
+	  ㄴmemberMgr.do ( URL Mapping )
+	 	로그인 		/member/memberMgr.do?command=memberForm
+		회원가입 		/member/memberMgr.do?command=memberIns
+		회원정보수정 	/member/memberMgr.do?command=memberUpd
+		회원삭제 		/member/memberMgr.do?command=memberDel
+		회원정보조회 	/member/memberMgr.do?command=memberSel
+-->
+  <servlet>
+     <servlet-name>memberController</servlet-name>
+     <servlet-class>com.ch09.MemberController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>memberController</servlet-name>
+     <url-pattern>/ch09_cookie_session/02_login_out/memberMgr.do</url-pattern>
+  </servlet-mapping>
+<!-- ────────────────────────────────────────────────────────── -->
+  <servlet>
+     <servlet-name>FrontServlet</servlet-name>
+     <servlet-class>com.pojo.FrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>FrontServlet</servlet-name>
+     <url-pattern>*.kos</url-pattern><!-- .kos로 끝나는 모든 요청을 인터셉트 -->
+  </servlet-mapping>
+<!-- ────────────────────────────────────────────────────────── -->
+
+<!-- 	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+		[ ▽ ▽ ▽ [ Servlet URL Pattern Mapping ex] ▽ ▽ ▽ ]
+		■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■		-->
+
+<!-- 
+   <servlet>
+     <servlet-name>SAME-NAME</servlet-name>
+     <servlet-class>com.package.SurvletClass</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>SAME-NAME</servlet-name>
+     <url-pattern>/What_you_want_pattern</url-pattern>
+  </servlet-mapping>
+   -->
+<!-- 	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+		[ ▽ ▽ ▽ [ Servlet URL Pattern Mapping] ▽ ▽ ▽ ]
+		■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■		-->
+
+  <servlet> <!-- DAY01 -->
+     <servlet-name>first</servlet-name>
+     <servlet-class>com.ch17.day01.HelloServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>first</servlet-name>
+     <url-pattern>/ch17/day01/firstServlet.do</url-pattern>
+  </servlet-mapping>
+<!-- ────────────────────────────────────────────────────────── -->
+  <servlet> <!-- DAY02 -->
+     <servlet-name>OrderServlet</servlet-name>
+     <servlet-class>com.ch17.day02.OrderSurvlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>OrderServlet</servlet-name>
+     <url-pattern>/ch17/day02/OrderServlet.do</url-pattern>
+  </servlet-mapping>
+<!-- ────────────────────────────────────────────────────────── -->
+  <servlet> <!-- DAY04 :: CRUD 분기를 위한 Servlet URL Mapping -->
+     <servlet-name>boardServlet</servlet-name>
+     <servlet-class>com.ch17.day04_survlet_limit.BoardSurvlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>boardServlet</servlet-name>
+     <url-pattern>/ch17/crud.do</url-pattern>
+  </servlet-mapping>
+<!-- ────────────────────────────────────────────────────────── -->
+  <servlet> <!-- DAY09 :: HashMapBinder테스트를 위한 로그인서블릿 -->
+     <servlet-name>loginServlet</servlet-name>
+     <servlet-class>com.ch03.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>loginServlet</servlet-name>
+     <url-pattern>/ch03/login.do</url-pattern>
+  </servlet-mapping>
+<!-- ────────────────────────────────────────────────────────── -->
+  <servlet> <!-- DAY11 :: 페이지 이동 테스트를 위한 목적지 페이지 -->
+     <servlet-name>pageMoveServlet</servlet-name>
+     <servlet-class>com.ch04.pageSurvlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>pageMoveServlet</servlet-name>
+     <url-pattern>/ch04/pageMove.do</url-pattern>
+  </servlet-mapping>
+<!-- ────────────────────────────────────────────────────────── -->
+  <servlet> <!-- DAY12 :: 에러페이지 테스트를 위한 로그인페이지 -->
+     <servlet-name>loginServlet6</servlet-name>
+     <servlet-class>com.ch06.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>loginServlet6</servlet-name>
+     <url-pattern>/ch06/login.do</url-pattern>
+  </servlet-mapping>
+<!-- ────────────────────────────────────────────────────────── -->
+  <servlet> <!-- DAY13 :: 서블릿연동한 include+forward -->
+    <servlet-name>a2Servlet</servlet-name>
+  	<servlet-class>com.ch07.A2Servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>a2Servlet</servlet-name>
+  	<url-pattern>/ch07/a2Action.do</url-pattern>
+  </servlet-mapping>    
+<!-- ────────────────────────────────────────────────────────── -->
+<!--   <error-page>DAY12 :: 에러페이지 처리
+	 <error-code>404</error-code>
+	 <location>/error/error404.jsp</location>
+  </error-page>
+  <error-page>
+	 <error-code>500</error-code>
+	 <location>/error/error500.jsp</location>
+  </error-page> -->
+<!-- ────────────────────────────────────────────────────────── -->
+</web-app>

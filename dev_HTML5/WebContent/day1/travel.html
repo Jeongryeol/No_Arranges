@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>좋아하는 여행지</title>
+<script type="text/javascript">
+	function login(mem_id){ //자바스크립트는 타입이 없다.
+		console.log("login 성공"+mem_id.value)//개발자메뉴에서 확인가능한 콜솔창에 출력하기
+		//alert("로그인 호출 성공");//팝업창 띄우기
+	}
+</script>
+</head>
+<body>
+<b>'이정렬'의 좋아하는 여행지</b>
+<br>
+
+<IMG name="t1" src="../images/t1.png" width="180" height="100" onclick="login(document.getElementById('t'))">
+<IMG name="t2" src="../images/t2.png" width="180" height="100" onclick="login(document.getElementById('t'))"> 
+<IMG name="t3" src="../images/t3.png" width="180" height="100" onclick="login(document.getElementById('t'))" >
+<IMG name="t4" src="../images/t4.png" width="180" height="100" onclick="login(document.getElementById('t'))">
+<br>
+<textarea id="t" cols="102" rows="5" datafld="dataField" datasrc="dataUrl" systembitrate="5000" systemcaptions="on" systemlanguage="ko" timecontainer="none" hasmedia="false">T1사진은 츠키지시장 입니다.</textarea>
+</body>
+</html>

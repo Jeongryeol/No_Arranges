@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.superMapper">
+	<!-- pk컬럼명을 가져오는 select문 -->
+	<select id="selectPk" resultType="map" parameterType="string">
+		SELECT
+		column_name pk FROM all_cons_columns WHERE CONSTRAINT_NAME =
+		(SELECT
+		CONSTRAINT_NAME FROM all_constraints WHERE CONSTRAINT_TYPE = 'P' AND
+		table_name = #{value})
+	</select>
+	<!-- 테이블의 컬럼명과 타입을 가져오는 select문 -->
+	<select id="selectCol" resultType="map" parameterType="string">
+		SELECT
+		CNAME,
+		DECODE(COLTYPE,'NUMBER',DECODE(scale,0,'int','double'),'VARCHAR2','String','VARCHAR','String','DATE','String')
+		type FROM COL WHERE TNAME = #{value}
+	</select>
+	<!-- 조건이 맞는 모든 row를 가져오는 select문 -->
+	<select id="find" parameterType="map" resultType="map">
+		SELECT * FROM ${tableName}
+		<where>
+			<foreach collection="_parameter.entrySet()" item="value"
+				index="key" separator="AND">
+				<if test="'tableName' != key">
+					${key} = #{value}
+				</if>
+			</foreach>
+		</where>
+	</select>
+	<!-- like를 활용한 조금만 같아도 나오는 select문 -->
+	<select id="findRegex" resultType="map">
+		SELECT * FROM ${tableName}
+		<where>
+			<foreach collection="_parameter.entrySet()" item="value"
+				index="key" separator="OR">
+				<if test="'tableName' != key">
+					${key} LIKE LOWER('%${value}%') OR ${key} LIKE
+					UPPER('%${value}%')
+				</if>
+			</foreach>
+		</where>
+	</select>
+	<!-- 넣고싶은 값들을 인서트해줌 -->
+	<insert id="create" parameterType="map">
+		INSERT INTO ${tableName}
+		<foreach collection="_parameter.entrySet()" item="value"
+			index="key" open="(" separator="," close=")">
+			<if test="'tableName' != key">
+				${key}
+			</if>
+		</foreach>
+		Values
+		<foreach collection="_parameter.entrySet()" item="value"
+			index="key" open="(" separator="," close=")">
+			<if test="'tableName' != key">
+				#{value}
+			</if>
+		</foreach>
+	</insert>
+	<!-- 업데이트문 -->
+	<update id="update" parameterType="map">
+		UPDATE ${tableName} SET
+		<foreach collection="_parameter.entrySet()" separator=","
+			index="key" item="value">
+			<if test="'tableName' != key">
+				<if test="'keyId'!=key">
+					<if test="'valueId'!=key">
+						${key} = #{value}
+					</if>
+				</if>
+			</if>
+		</foreach>
+		<where>
+			${keyId} = #{valueId}
+		</where>
+	</update>
+	<!-- 삭제문 -->
+	<delete id="remove" parameterType="map">
+		DELETE FROM ${tableName}
+		<where>
+			${keyId} = #{valueId}
+		</where>
+	</delete>
+</mapper>

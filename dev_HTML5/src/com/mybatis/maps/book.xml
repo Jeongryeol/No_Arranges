@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 액션태그가 이름을 가질때, 그 이름에 해당하는 부분 -->
+<mapper namespace="bookMapper">
+	<select id="myBatisTest" resultType="java.util.Map" parameterType="java.util.Map">
+		select 1 "val" FROM dual  	<!-- val은 DAO클래스에서 사용되는 Map의 키-->
+		 where '계산'=#{param_text} 	<!-- param_text는 DAO클래스에서 사용되는 Map의 값 -->
+	</select>
+	<select id="currentTime" resultType="java.util.Map" parameterType="java.util.Map">
+		select TO_CHAR(sysdate,'YYYY-MM-DD') "curDay"<!-- 더블쿼테이션은 문자 그대로가 키가 됨 -->
+			  ,TO_CHAR(sysdate,'YYYY-MM-DD') "한글은되세요?"
+			  ,TO_CHAR(sysdate,'YYYY-MM-DD') curday <!-- 더블쿼테이션이 없으면 대문자로 변환 -->
+			  ,TO_CHAR(sysdate,'YYYY-MM-DD') CURDAY <!-- 더블쿼테이션이 없으면 대문자로 변환 -->
+		  FROM dual
+	</select>
+</mapper>

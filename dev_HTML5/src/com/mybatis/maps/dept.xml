@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 액션태그가 이름을 가질때, 그 이름에 해당하는 부분 -->
+<mapper namespace="deptMapper">
+	<select id="proc_emp_sal_update" parameterType="map" statementType="CALLABLE">
+		{ call proc_emp_sal_update(#{empno, mode=IN, jdbcType=NUMERIC,javaType=int},#{msg, mode=OUT, jdbcType=VARCHAR,javaType=String})}
+	</select>
+	<select id="getDeptList" resultType="map" parameterType="map">
+		SELECT deptno, dname, loc FROM dept <!-- 알리아스명이 없으면 컬럼명이  Map의 키-->
+		<!-- <![CDATA[ WHERE deptno >= #{p_int} ]]> -->	<!-- p_int는 Map의 값 -->
+		<if test="deptno != 0">
+			<![CDATA[ AND deptno >= #{deptno} ]]>	
+		</if>
+<!-- 		<if test="p_String != null">
+ 			AND dname like #{p_String}
+ 		</if> -->
+		<if test="dname != null">
+ 			AND dname like '%'||#{dname}||'%'
+ 		</if>
+	</select>
+	<!-- resultType은 필요없다. 입력|수정|삭제의 반환타입은 무조건 int임 ( 0 또는 1 ) -->
+	<insert id="deptInsert" parameterType="map">
+		INSERT INTO dept(deptno, dname, loc)
+		VALUES(#{deptno}, #{dname}, #{loc})
+	</insert>
+	<insert id="deptInsert2" parameterType="map">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT 5 no FROM dual
+		</selectKey>
+		INSERT INTO dept(deptno, dname, loc)
+		VALUES(#{deptno}, #{dname}, #{loc})
+	</insert>
+	<update id="deptUpdate"
+			parameterType="map"
+			flushCache="true"
+			statementType="PREPARED"
+			timeout="20">
+		UPDATE dept
+		   SET DEPTNO=99
+		 WHERE dname = #{dname}
+	</update>
+	<delete id="deptDeleteList" parameterType="list"><!-- array도 다룰줄 알아야함 -->
+			DELETE FROM dept
+			 WHERE deptno in
+				<foreach item="item" index="index" collection="list"
+ 						 open="(" separator="," close=")">
+ 					#{item}
+ 				</foreach>
+	</delete>
+ 	<delete id="deptDeleteArray"><!-- array는 파라미터타입을 빼면 작동됨 -->
+			DELETE FROM dept
+			 WHERE deptno in
+				<foreach item="item" index="index" collection="array"
+ 						 open="(" separator="," close=")">
+ 					#{item}
+ 				</foreach>
+	</delete>
+</mapper>

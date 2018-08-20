@@ -1,0 +1,36 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function confirm(){
+/* 	//이름으로 값을 가져오기
+		var v_testno = document.f_test.test_no.value;
+		var v_testname = document.f_test.test_name.value;
+		alert("수험번호 :"+v_testno+"/ 이름 : "+v_testname); */
+	//아이디로 값을 가져오기
+		var v_testno = document.getElementById("mem_id").value
+		var v_testname = document.getElementById("mem_name").value
+		alert("수험번호 :"+v_testno+"/ 이름 : "+v_testname);
+		document.getElementById("i_form").submit();
+	}
+ </script>
+</head>
+<body>
+<form name="n_form" id="i_form" method="post" action="./OnLineTest_Confirm.jsp">
+<table align="center" border="1" width="900px" height="600">
+	<tr>
+		<td valign="middle">
+<!-- 수험생 검증화면 시작 -->
+		<table width="250px" height="60px" align="center">
+			<tr><td>수험번호 : <input type="text" size="15" name="mem_id" id="mem_id"></td></tr>
+			<tr><td>이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름 : <input type="text" size="14" name ="mem_name" id="mem_name"></td></tr>
+			<tr><td align="center">
+				<input type="button" value="확인" onClick="confirm()">
+		</table>
+		</td>
+<!-- 수험생 검증화면 끝 -->
+	</tr>
+</table>
+</form>

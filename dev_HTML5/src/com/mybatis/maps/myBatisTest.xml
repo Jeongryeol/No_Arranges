@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 액션태그가 이름을 가질때, 그 이름에 해당하는 부분 -->
+<mapper namespace="testMapper">
+	<select id="testMapSelect" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			 empno "사원번호"
+			,ename "사원명"
+			,sal "연봉"
+			,comm "인센티브"
+		  FROM emp
+		 WHERE empno=#{param_num} 	<!-- param_text는 Map의 값 -->
+	</select>
+</mapper>
