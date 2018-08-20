@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+	document.write("<B>내장객체</b> ducument에 대해서...");//브라우저에 출력해주는 함수 document.write()
+	document.write("<table border='1' width=350px'");
+	document.write("<tr>");
+	document.write("<td align = 'center'>이름</td><td align = 'center'>출생년도</td><td align = 'center'>aa</td>");
+	document.write("</tr>");
+	/* 반복문 추가하기 */
+	var births = new Array("1987년","1991년","1933년","0000년");
+	for(var i=0;i<5;i++){
+	document.write("<tr>");
+	document.write("<td align = 'center'>"+i+"</td><td align = 'center'>"+births[i]+"</td><td align = 'center'>aa</td>");
+	document.write("</tr>");		
+	}
+	/*			 */
+	document.write("</table>");
+</script>
+</body>
+</html>
