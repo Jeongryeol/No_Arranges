@@ -101,7 +101,6 @@ public class CookieMgr {
 	HttpServletRequest  req = null;
 	HttpServletResponse res = null;
 	private Map<String,Cookie> cookieMap = new HashMap<>();//쿠키담는 Map
-	private List<Map<String,Cookie>> cookieList = null;
 	
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 	
@@ -416,17 +415,4 @@ public class CookieMgr {
 	    return result;
 	}
 	
-	
-	/**
-	 * [[ 특정 문자열을 포함하는 쿠키를 맵에 담아 반환하기 ]]
-	 * @param	certainName : 쿠키이름 검색에 사용할 조건문자열
-	 * @return	rCkMap : 조건에 해당하는 쿠키맵
-	 */
-	public Map<String,Cookie> addCookieBasket(String certainName){
-		String guide = (.contains(certainName));
-		for(String str : cookieMap.keySet()) {
-			
-		}
-		return null;
-	}
 }

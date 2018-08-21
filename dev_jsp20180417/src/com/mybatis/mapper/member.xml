@@ -14,9 +14,9 @@
 <!-- 아이디가 존재하는지 체크 -->
  <select id="idExist" parameterType="java.lang.String" resultType="int">
 	SELECT NVL((SELECT 2 as status FROM dual
-	 WHERE EXISTS (SELECT mem_no FROM member
-	               WHERE mem_id=#{value} AND rownum=1)),-1) status
-	 FROM dual 	
+				 WHERE EXISTS (SELECT mem_no FROM member
+	            			    WHERE mem_id = utl_encode.text_encode(#{value},'UTF8',1) AND rownum=1)),-1) status
+	  FROM dual 	
  </select>
  <insert id="memberInsert" parameterType="map">
  	INSERT INTO member(mem_no, mem_id, mem_pw, mem_name) 

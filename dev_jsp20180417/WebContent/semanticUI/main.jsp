@@ -50,10 +50,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<link rel="stylesheet" href="../semantic/semantic.css" />
-<script src="../semantic/jquery-1.12.0.js"></script>
+<link rel="stylesheet" href="../Semantic/semantic.css" />
+<script src="../Semantic/jquery-1.12.0.js"></script>
 <script src="../js/jquery.easyui.min.js"></script>
-<script src="../semantic/semantic.js"></script>
+<script src="../Semantic/semantic.js"></script>
 <script src="../js/commons.js"></script>
 <title>시맨틱UI API활용</title>
 <script type="text/javascript">
@@ -82,8 +82,7 @@
 		}
 	}
 	function memoMgr(){
-		//창을 띄워서 처리해야 EasyUI와 sementic이 충돌나지 않는다.
-		cmm_window_popup("./memberList.jsp","700","450","testForm1");
+		cmm_window_popup("./memberList.jsp","620","400","memberList");
 	}
 	function onLineTest(){
 		cmm_window_popup("../onLineTest/testForm1.html","700","450","testForm1");
@@ -210,7 +209,7 @@
 <!--======================[[ 사이드 메뉴 추가 시작 ]]=====================-->			
 				<div class="ui vertical fluid tabular menu" id="menu">
 					<a id="m_intro" class="item">인트로 </a>
-					<a id="m_memo" class="item">쪽지관리</a>
+					<a id="m_memo" class="item">쪽지관리 </a>
 					<a id="m_cart" class="item"> 장바구니 </a>
 					<a id="m_gmap" class="item"> 구글맵 </a>
 					<a id="m_ontest" class="item"> 온라인시험 </a>
@@ -274,19 +273,12 @@
 			}
  			if($(this).attr('id')=='m_intro'){//인트로 선택한거니?
  				$("#c_intro").show();
- 				$("#c_gmap").hide();
- 				$("#c_ontest" ).hide();
- 				$("#c_board").hide();
-			}
-			else if($(this).attr('id')=='m_memo'){//장바구니가 필요해?
- 				$("#c_intro").hide();
  				$("#c_cart").hide();
  				$("#c_gmap").hide();
  				$("#c_ontest" ).hide();
  				$("#c_board").hide();
- 				memoMgr();
 			}
-			else if($(this).attr('id')=='m_cart'){//장바구니가 필요해?
+			else if($(this).attr('id')=='m_cart'){//구글맵서비스가 필요해?
  				$("#c_intro").hide();
  				$("#c_cart").show();
  				$("#c_gmap").hide();
@@ -295,12 +287,22 @@
 			}
 			else if($(this).attr('id')=='m_gmap'){//구글맵서비스가 필요해?
  				$("#c_intro").hide();
+ 				$("#c_cart").hide();
  				$("#c_gmap").show();
  				$("#c_ontest" ).hide();
  				$("#c_board").hide();				
 			}
+			else if($(this).attr('id')=='m_memo'){//쪽지관리화면이동할건데
+ 				$("#c_intro").hide();
+ 				$("#c_cart").hide();
+ 				$("#c_gmap").hide();
+ 				$("#c_ontest" ).hide();
+ 				$("#c_board").hide();	
+ 				memoMgr();
+			}
 			else if($(this).attr('id')=='m_ontest'){//시험볼거니?
  				$("#c_intro").hide();
+ 				$("#c_cart").hide();
  				$("#c_gmap").hide();
  				$("#c_ontest" ).hide();
  				$("#c_board").hide();	
@@ -308,6 +310,7 @@
 			}
 			else if($(this).attr('id')=='m_board'){//게시판 쓸건가?
  				$("#c_intro").hide();
+ 				$("#c_cart").hide();
  				$("#c_gmap").hide();
  				$("#c_ontest" ).hide();
  				$("#c_board").show();				
