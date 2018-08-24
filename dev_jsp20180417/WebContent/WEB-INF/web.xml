@@ -36,6 +36,17 @@
 		회원삭제 		/member/memberMgr.do?command=memberDel
 		회원정보조회 	/member/memberMgr.do?command=memberSel
 -->
+  <!-- MVC패턴 계층형 게시판  -->
+  <servlet>
+  	<servlet-name>frontBoard</servlet-name>
+  	<servlet-class>com.mvc.board.BoardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>frontBoard</servlet-name>
+  	<url-pattern>*.bd</url-pattern>
+  </servlet-mapping>  
+  <!-- MVC패턴 계층형 게시판 -->
+
   <servlet>
      <servlet-name>memberController</servlet-name>
      <servlet-class>com.ch09.MemberController</servlet-class>

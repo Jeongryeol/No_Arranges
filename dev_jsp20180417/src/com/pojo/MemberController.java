@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.util.HashMapBinder;
-import com.util.Post_Hangul_Conversion;
 
 public class MemberController implements Action {
 	Logger logger = Logger.getLogger(MemberController.class);
@@ -30,37 +29,26 @@ public class MemberController implements Action {
  ************************************************************************************************************/
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		logger.info("execute 호출 성공 / gubun = "+req.getAttribute("gubun"));
-		//String mem_id = req.getParameter("mem_id");
-		//String mem_pw = req.getParameter("mem_pw");
+		logger.info("execute 호출 성공"+req.getAttribute("gubun"));
 		String gubun = req.getAttribute("gubun").toString();
-		
-		
-		logger.info("여기는 도착했니?");
-		
 		ActionForward af = new ActionForward();
 		String path = null;
 		if("login".equals(gubun)) {//로그인을 처리할 때
-			//Base64방식으로 적용하는 보안모듈 [ 아이디 ]
-			String mem_id = req.getParameter("mem_id");		  //입력값읽기
-			byte[] idBytes = mem_id.getBytes();				  //바이트배열로 변환
-			Encoder idEncoder = Base64.getEncoder();		  //변환객체 생성
-			byte[] idEncoderBytes = idEncoder.encode(idBytes);//변환객체로 배열을 변환
-			String base64ID = new String(idEncoderBytes);	  //String 클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩 된 새로운 객체를 생성할 것
-			//Base64방식으로 적용하는 보안모듈 [ 비밀번호 ]
-			String mem_pw = req.getParameter("mem_pw");		  //입력값읽기
-			byte[] pwBytes = mem_pw.getBytes();				  //바이트배열로 변환
-			Encoder pwEncoder = Base64.getEncoder();		  //변환객체 생성
-			byte[] pwEncoderBytes = idEncoder.encode(pwBytes);//변환객체로 배열을 변환
-			String base64PW = new String(pwEncoderBytes);	  //String 클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩 된 새로운 객체를 생성할 것
-			//이름은 인코딩할 필요가 없음
-			String mem_name = Post_Hangul_Conversion.toKor(req.getParameter("mem_name"));
-			//담기
+			String mem_id = req.getParameter("mem_id");
+			byte[] idBytes = mem_id.getBytes();
+			Encoder idEncoder = Base64.getEncoder();
+			byte[] idEncoderBytes = idEncoder.encode(idBytes);
+			//String클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩된 새로운 객체를 생성할것.
+			String base64ID = new String(idEncoderBytes);
+			String mem_pw = req.getParameter("mem_pw");
+			byte[] pwBytes = mem_pw.getBytes();
+			Encoder pwEncoder = Base64.getEncoder();
+			byte[] pwEncoderBytes = pwEncoder.encode(pwBytes);
+			//String클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩된 새로운 객체를 생성할것.
+			String base64PW = new String(pwEncoderBytes);
 			Map<String,Object> pMap = new HashMap<String,Object>();
 			pMap.put("mem_id", base64ID);
-			pMap.put("mem_pw", base64PW);
-			pMap.put("mem_name", mem_name);
-			
+			pMap.put("mem_pw", base64PW);			
 			Map<String,Object> rMap = memLogic.login(pMap);
 			/*
 			 * 최초에는 로그인 성공했을 때만 세션에 담았지만 ajax처리로 여러가지의 값을 내보내는 경우를 고려하여 개선처리함.
@@ -97,23 +85,24 @@ public class MemberController implements Action {
 			}			
 		
 		}
-		else if("memberList".equals(gubun)) {
-			logger.info("memberList 선택 성공");
-			List<Map<String,Object>> rMapList = memLogic.getMemberList();
-			logger.info("rMapList = "+rMapList);
-			req.setAttribute("memberList",rMapList);
-			path="jsonMemberList.jsp";
-			af.setPath(path);
+		else if("zipcode".equals(gubun)){
+			String dong = req.getParameter("dong");
+			List<Map<String,Object>> zipCodeList = memLogic.zipCodeList(dong);
+			req.setAttribute("zipCodeList", zipCodeList);
+			path = "jsonZipCodeList.jsp";
 			af.setRedirect(true);
-			
+			af.setPath(path);
+		}
+		else if("memberList".equals(gubun)){
+			List<Map<String,Object>> memberList = memLogic.memberList();
+			req.setAttribute("memberList", memberList);
+			path = "jsonMemberList.jsp";
+			af.setRedirect(true);
+			af.setPath(path);
 		}
 		else if("pwSearch".equals(gubun)) {//비번찾기 처리할 때
 			
 		}
-		else {
-			logger.info("아무것도 걸리지 않음. 에러상황발생");
-		}
-		logger.info("이건 나오니?");
 
 		return af;
 	}
@@ -135,9 +124,18 @@ public class MemberController implements Action {
 		int result = 0;
 		if("memINS".equals(gubun)) {
 			logger.info("회원 등록 처리 시작");
-/*			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.bind(pMap);*/
 			result = memLogic.memberInsert(pMap);
+			af.setRedirect(false);
+			if(result==1) {
+				af.setPath("memberInsertOk.jsp");
+			}
+			else if(result==0) {
+				af.setPath("memberInsertFail.jsp");
+			}
+		}
+		else if("memoInsert".equals(gubun)) {
+			logger.info("쪽지 보내기 처리 시작");
+			result = memLogic.memoInsert(pMap);
 			af.setRedirect(false);
 			if(result==1) {
 				af.setPath("memberInsertOk.jsp");

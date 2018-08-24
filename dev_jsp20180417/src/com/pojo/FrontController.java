@@ -1,8 +1,8 @@
 package com.pojo;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.Base64.Encoder;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +62,10 @@ public class FrontController extends HttpServlet {
 					req.setAttribute("gubun", "login");//scope-저장,유지
 					forward = memCtrl.execute(req, res);
 				}
+				else if("zipcode".equals(gubun)) {
+					req.setAttribute("gubun", "zipcode");//scope-저장,유지
+					forward = memCtrl.execute(req, res);
+				}
 				else if("memberList".equals(gubun)) {
 					req.setAttribute("gubun", "memberList");//scope-저장,유지
 					forward = memCtrl.execute(req, res);
@@ -71,31 +75,58 @@ public class FrontController extends HttpServlet {
 					forward = memCtrl.execute(req, res);
 				}				
 				else if("memINS".equals(gubun)) {
-					//Base64방식으로 적용하는 보안모듈 [ 아이디 ]
-					String mem_id = req.getParameter("mem_id");		  //입력값읽기
-					byte[] idBytes = mem_id.getBytes();				  //바이트배열로 변환
-					Encoder idEncoder = Base64.getEncoder();		  //변환객체 생성
-					byte[] idEncoderBytes = idEncoder.encode(idBytes);//변환객체로 배열을 변환
-					String base64ID = new String(idEncoderBytes);	  //String 클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩 된 새로운 객체를 생성할 것
-					//Base64방식으로 적용하는 보안모듈 [ 비밀번호 ]
-					String mem_pw = req.getParameter("mem_pw");		  //입력값읽기
-					byte[] pwBytes = mem_pw.getBytes();				  //바이트배열로 변환
-					Encoder pwEncoder = Base64.getEncoder();		  //변환객체 생성
-					byte[] pwEncoderBytes = idEncoder.encode(pwBytes);//변환객체로 배열을 변환
-					String base64PW = new String(pwEncoderBytes);	  //String 클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩 된 새로운 객체를 생성할 것
-					//이름은 인코딩할 필요가 없음
-					String mem_name = Post_Hangul_Conversion.toKor(req.getParameter("mem_name"));
-					//담기
+					String mem_id = req.getParameter("mem_id");
+					byte[] idBytes = mem_id.getBytes();
+					Encoder idEncoder = Base64.getEncoder();
+					byte[] idEncoderBytes = idEncoder.encode(idBytes);
+					//String클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩된 새로운 객체를 생성할것.
+					String base64ID = new String(idEncoderBytes);
 					pMap.put("mem_id", base64ID);
+					String mem_pw = req.getParameter("mem_pw");
+					byte[] pwBytes = mem_pw.getBytes();
+					Encoder pwEncoder = Base64.getEncoder();
+					byte[] pwEncoderBytes = pwEncoder.encode(pwBytes);
+					//String클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩된 새로운 객체를 생성할것.
+					String base64PW = new String(pwEncoderBytes);
 					pMap.put("mem_pw", base64PW);
+					String mem_name = 
+							Post_Hangul_Conversion.toKor(req.getParameter("mem_name"));
 					pMap.put("mem_name", mem_name);
+					String zipcode = req.getParameter("zipcode");
+					pMap.put("zipcode", zipcode);
+					String address = 
+							Post_Hangul_Conversion.toKor(req.getParameter("address"));
+					pMap.put("address", address);
 					forward = memCtrl.execute(req, res, pMap);
 				}				
-				
+				//////////////////////////쪽지 보내기 시작
+				else if("memoInsert".equals(gubun)) {
+					req.setAttribute("gubun", "memoInsert");
+					String from_id = req.getParameter("from_id");
+					byte[] idBytes = from_id.getBytes();
+					Encoder idEncoder = Base64.getEncoder();
+					byte[] idEncoderBytes = idEncoder.encode(idBytes);
+					//String클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩된 새로운 객체를 생성할것.
+					String base64ID = new String(idEncoderBytes);
+					pMap.put("from_id", base64ID);
+					String to_id = req.getParameter("to_id");
+					byte[] tidBytes = to_id.getBytes();
+					Encoder tidEncoder = Base64.getEncoder();
+					byte[] tidEncoderBytes = tidEncoder.encode(tidBytes);
+					//String클래스는 원본이 바뀌지 않는 클래스 이므로 인코딩된 새로운 객체를 생성할것.
+					String base64TID = new String(tidEncoderBytes);
+					pMap.put("to_id", base64TID);					
+					String memo_content = 
+							Post_Hangul_Conversion.toKor(req.getParameter("memo_content"));
+					pMap.put("memo_content", memo_content);
+					forward = memCtrl.execute(req, res, pMap);
+				}				
+				//////////////////////////쪽지 보내기 끝
 			} catch (Exception e) {
 				logger.info("exception:"+e.toString());
 			}			
 		}
+		
 		else if("/pojo/getPojoList.kos".equals(command)) {
 			//판정
 			List<Map<String,Object>> pojoList = null;

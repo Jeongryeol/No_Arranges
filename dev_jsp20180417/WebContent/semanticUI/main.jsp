@@ -50,10 +50,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<link rel="stylesheet" href="../Semantic/semantic.css" />
-<script src="../Semantic/jquery-1.12.0.js"></script>
+<link rel="stylesheet" href="../semantic/semantic.css" />
+<script src="../semantic/jquery-1.12.0.js"></script>
 <script src="../js/jquery.easyui.min.js"></script>
-<script src="../Semantic/semantic.js"></script>
+<script src="../semantic/semantic.js"></script>
 <script src="../js/commons.js"></script>
 <title>시맨틱UI API활용</title>
 <script type="text/javascript">
@@ -121,7 +121,7 @@
     }
 	function login(){
 		var x = document.cookie;
-		alert("x:"+x);
+		//alert("x:"+x);
 		var param = "command=login&mem_id="+$("#mem_id").val()+"&mem_pw="+$("#mem_pw").val();
 		$.ajax({
 			method:"POST",
@@ -267,10 +267,10 @@
 			$('#menu').find('a').attr('class', 'item');
 			$(this).attr('class', 'item active');
 			//alert($(this).attr('id'));
-			if(status == 'null' || status.length==0){
+/* 			if(status == 'null' || status.length==0){
 				alert("로그인 하세요");
 				return;
-			}
+			} */
  			if($(this).attr('id')=='m_intro'){//인트로 선택한거니?
  				$("#c_intro").show();
  				$("#c_cart").hide();

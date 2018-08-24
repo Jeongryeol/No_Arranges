@@ -94,22 +94,6 @@ public class SqlMemberDao {
 		}		
 		return rMap;
 	}
-	public List<Map<String,Object>> getMemberListAll() {
-		logger.info("getMemberListAll호출 성공");
-		List<Map<String,Object>> memberList = null;
-		try {
-			Reader reader = null;//2byte단위로(한글-2byte단위처리)
-			reader = Resources.getResourceAsReader(resource);
-			sqlMapper =
-					new SqlSessionFactoryBuilder().build(reader);
-			sqlSes =  sqlMapper.openSession();
-			memberList = sqlSes.selectList("getMemberListAll");
-			logger.info("memberList.size() : "+memberList.size());
-		}catch(Exception e) {
-			logger.info("exception : "+e.toString());
-		}		
-		return memberList;
-	}
 	public int memberInsert(Map<String,Object> pMap) {
 		logger.info("memberInsert호출 성공");
 		int result = 0;
@@ -120,6 +104,54 @@ public class SqlMemberDao {
 					 new SqlSessionFactoryBuilder().build(reader);
 			sqlSes =  sqlMapper.openSession();
 			result = sqlSes.insert("memberInsert", pMap);
+			sqlSes.commit();
+		}catch(Exception e) {
+			logger.info("exception : "+e.toString());
+		}
+		return result;
+	}
+	public List<Map<String, Object>> memberList() {
+		List<Map<String,Object>> memberList = null;
+		try {
+			Reader reader = null;//2byte단위로(한글-2byte단위처리)
+			reader = Resources.getResourceAsReader(resource);
+			sqlMapper =
+					new SqlSessionFactoryBuilder().build(reader);
+			sqlSes =  sqlMapper.openSession();
+			memberList = sqlSes.selectList("memberList");
+			logger.info("memberList.size():"+memberList.size());
+		}catch(Exception e) {
+			logger.info("Exception : "+e.toString());
+		}
+		return memberList;
+	}
+	//파라미터와 리턴타입에 대한 선택은 sql문을 작성해 보고 단위테스트 확인
+	public List<Map<String, Object>> zipCodeList(String dong) {
+		logger.info("dong : "+dong);
+		List<Map<String,Object>> zipCodeList = null;
+		try {
+			Reader reader = null;//2byte단위로(한글-2byte단위처리)
+			reader = Resources.getResourceAsReader(resource);
+			sqlMapper =
+					new SqlSessionFactoryBuilder().build(reader);
+			sqlSes =  sqlMapper.openSession();
+			zipCodeList = sqlSes.selectList("zipCodeList",dong);
+			logger.info("zipCodeList.size():"+zipCodeList.size());
+		}catch(Exception e) {
+			logger.info("Exception : "+e.toString());
+		}
+		return zipCodeList;
+	}
+	public int memoInsert(Map<String, Object> pMap) {
+		logger.info("memoInsert호출 성공");
+		int result = 0;
+		try {
+			Reader reader = null;//2byte단위로(한글-2byte단위처리)
+			reader = Resources.getResourceAsReader(resource);
+			sqlMapper =
+					 new SqlSessionFactoryBuilder().build(reader);
+			sqlSes =  sqlMapper.openSession();
+			result = sqlSes.insert("memoInsert", pMap);
 			sqlSes.commit();
 		}catch(Exception e) {
 			logger.info("exception : "+e.toString());

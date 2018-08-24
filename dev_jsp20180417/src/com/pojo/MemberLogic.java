@@ -1,5 +1,6 @@
 package com.pojo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,6 @@ public class MemberLogic {
 		logger.info("result:"+result);
 		return result;
 	}
-	public List<Map<String, Object>> getMemberList() {
-		logger.info("getMemberList 호출 성공");
-		List<Map<String, Object>> rlist = memDao.getMemberListAll();
-		return rlist;
-	}
 	public Map<String, Object> login(Map<String, Object> pMap) {
 		logger.info("login 호출 성공");
 		int status = -2;
@@ -50,6 +46,25 @@ public class MemberLogic {
 			rMap.put("status", status);//status에는 어떤 숫자가 담겨 있을 까요? -1
 		}
 		return rMap;
+	}
+	public List<Map<String, Object>> memberList() {
+		logger.info("memberList 호출 성공");
+		List<Map<String, Object>> memberList = new ArrayList<Map<String,Object>>();
+		memberList = memDao.memberList();
+		return memberList;
+	}
+	public List<Map<String, Object>> zipCodeList(String dong) {
+		logger.info("zipCodeList 호출 성공");
+		List<Map<String, Object>> zipCodeList = new ArrayList<Map<String,Object>>();
+		zipCodeList = memDao.zipCodeList(dong);
+		return zipCodeList;
+	}
+	//쪽지 보내기 구현
+	public int memoInsert(Map<String, Object> pMap) {
+		int result = 0;
+		result = memDao.memoInsert(pMap);
+		logger.info("result:"+result);
+		return result;
 	}	
 }
 
